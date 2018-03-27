@@ -88,7 +88,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:textColor="@color/colorWhite"
-                android:hint="Password"
+                android:hint="Passwords"
                 android:textColorHint="@color/colorWhiteof"
                 android:inputType="textPassword"
                 android:paddingLeft="15dp"
