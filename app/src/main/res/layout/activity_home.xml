@@ -11,7 +11,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -21,17 +21,19 @@
             app:layout_scrollFlags="exitUntilCollapsed|scroll"
             app:contentScrim="@color/colorPrimary"
             app:title="Beranda"
+            android:layout_gravity="center_horizontal"
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp"
-            android:background="@drawable/materialbackground"
+            android:background="@drawable/toolbarimage"
             >
-            <android.support.v7.widget.Toolbar
+            <include layout="@layout/app_bar_collapse" android:id="@+id/app_bar"></include>
+            <!--<android.support.v7.widget.Toolbar
                 android:layout_height="?attr/actionBarSize"
                 android:layout_width="match_parent"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 android:id="@+id/toolbarId" >
-            </android.support.v7.widget.Toolbar>
+            </android.support.v7.widget.Toolbar>-->
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -55,17 +57,49 @@
             android:gravity="center"
             android:id="@+id/ll">
 
+            <TextView
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:text="Information :"
+                android:layout_gravity="center"
+                android:textColor="@color/colorFullDarkGrey"/>
+
+            <ScrollView
+                android:layout_width="320dp"
+                android:layout_height="150dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+                    <me.biubiubiu.justifytext.library.JustifyTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/textTt"
+                        android:textColor="@color/colorFullDarkGrey">
+                    </me.biubiubiu.justifytext.library.JustifyTextView>
+
+                </LinearLayout>
+            </ScrollView>
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:clipToPadding="false"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.CardView
                     android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_margin="10dp"
+                    android:layout_height="100dp"
+                    android:layout_marginRight="40dp"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:id="@+id/cvMytree"
@@ -76,20 +110,21 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:background="@drawable/ic_launcher_background"
+                        android:background="@color/colorPrimary"
                         >
 
                         <ImageView
                             android:layout_width="64dp"
                             android:layout_height="64dp"
-                            android:src="@drawable/ic_collections_black_24dp"
-                            android:padding="10dp"/>
+                            android:src="@drawable/ic_pohon_white_64dp"
+                            android:padding="8dp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
-                            android:layout_marginTop="10dp"
-                            android:text="Pohon Saya"
+                            android:layout_marginTop="4dp"
+                            android:textSize="13sp"
+                            android:text="@string/text_pohon_saya"
                             android:textColor="@color/colorWhite"/>
 
                     </LinearLayout>
@@ -98,8 +133,8 @@
 
                 <android.support.v7.widget.CardView
                     android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_margin="10dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="40dp"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:id="@+id/cvMulai"
@@ -110,21 +145,22 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:background="@drawable/ic_launcher_background"
+                        android:background="@color/colorPrimary"
 
                         >
 
                         <ImageView
                             android:layout_width="64dp"
                             android:layout_height="64dp"
-                            android:src="@drawable/ic_play_circle_filled_black_24dp"
-                            android:padding="10dp"/>
+                            android:src="@drawable/ic_play_circle_outline_white_64dp"
+                            android:padding="8dp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
-                            android:layout_marginTop="10dp"
-                            android:text="Mulai Memantau"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/text_mulai"
+                            android:textSize="13sp"
                             android:textColor="@color/colorWhite"/>
 
                     </LinearLayout>
@@ -141,9 +177,9 @@
                 android:gravity="center">
 
                 <android.support.v7.widget.CardView
-                    android:layout_width="260dp"
-                    android:layout_height="120dp"
-                    android:layout_margin="10dp"
+                    android:layout_width="320dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:id="@+id/cvSync"
@@ -152,34 +188,59 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:gravity="center"
-                        android:background="@drawable/ic_launcher_background"
+                        android:background="@color/colorAmber"
                         >
 
-                        <ImageView
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:src="@drawable/ic_sync_black_64dp"
-                            android:padding="10dp"/>
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="50dp"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="Sinkronisasi Data"
+                            android:layout_gravity="right"
+                            android:text="@string/text_sync"
+                            android:textSize="16sp"
+                            android:gravity="center_vertical"
                             android:textColor="@color/colorWhite"/>
+
+                        <ImageView
+                            android:layout_gravity="left"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/ic_sync_white_50dp"
+                            android:padding="10dp"/>
 
                     </LinearLayout>
 
                 </android.support.v7.widget.CardView>
             </LinearLayout>
 
-
         </LinearLayout>
 
-
     </android.support.v4.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/nopadding"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary"
+                android:text="@string/text_btn_logout"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
 

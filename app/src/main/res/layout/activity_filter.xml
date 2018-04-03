@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="id.gaia.treemonitoring.FilterActivity"
+    android:orientation="vertical">
+
+    <include layout="@layout/app_bar_collapse" android:id="@+id/app_bar"></include>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/padding_16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="left"
+                android:text="@string/text_provinsi"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorBlack"
+                />
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="50dp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="right"
+                android:text="@string/text_titikdua"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorBlack"
+                />
+            <android.support.v7.widget.AppCompatSpinner
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/spinprovinsi"
+                tools:listitem="">
+
+            </android.support.v7.widget.AppCompatSpinner>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="left"
+                android:text="@string/text_kabkota"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorBlack"
+                />
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="50dp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="right"
+                android:text="@string/text_titikdua"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorBlack"
+                />
+            <android.support.v7.widget.AppCompatSpinner
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/spinkabkota"
+                tools:listitem="">
+
+            </android.support.v7.widget.AppCompatSpinner>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            >
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary"
+                android:text="@string/text_btn_filter"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
