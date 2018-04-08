@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.gaia.treemonitoring.database.TBPetani;
+import id.gaia.treemonitoring.helper.Connection_Detector;
 import id.gaia.treemonitoring.helper.Session;
 import id.gaia.treemonitoring.model.GetPetani;
 import id.gaia.treemonitoring.model.Petani;
@@ -28,10 +29,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btLogin;
     private EditText etUname, etPass;
     private LinearLayout liLayLogin;
-    ApiInterface pApiInterface;
     private TBPetani tbPetani;
     private Session session;
     private List<Petani> petaniList = new ArrayList<>();
+
+    ApiInterface pApiInterface;
+    Connection_Detector connection_detector;
 
     //fitur untuk nonaktifkan back diperangkat
     private long backPressedTime;
@@ -53,13 +56,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btLogin = (Button) findViewById(R.id.btnLogin);
         btLogin.setOnClickListener(this);
 
+        // MENAMPILKAN STATUS UPDATE PETANI BERDASARKAN STATUS INTERNET
+        connection_detector = new Connection_Detector(this);
+        if(!connection_detector.isConnected()){
+            Snackbar.make(liLayLogin, "Perangkat tidak memiliki koneksi internet. Gagal menyelaraskan database petani terbaru. ", Snackbar.LENGTH_LONG).show();
+        }
+
         if(session.loggedin()) { // JIKA SESSION LOGIN ARAHKAN KE BERANDA
             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             finish();
         } else { // JIKA SESSION = LOGOUT, MAKA PROSES DATA API, ITUPUN KALO KONEK INTERNET :)
-            // PANGGIL API INTERFACE,
-            pApiInterface = ApiClient.getClient().create(ApiInterface.class);
-            ProsesPetani();
+            if(connection_detector.isConnected()) { // JIKA ADA KONEKSI INTERNET
+                // PANGGIL API INTERFACE,
+                pApiInterface = ApiClient.getClient().create(ApiInterface.class);
+                ProsesPetani();
+            } else {
+                Snackbar.make(liLayLogin, "Koneksi internet tidak tersedia. Gagal menyelaraskan database. ", Snackbar.LENGTH_LONG).show();
+            }
         }
 
     }
@@ -70,7 +83,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onResponse(Call<GetPetani> call, Response<GetPetani> response) {
                 List<Petani> PetaniList = response.body().getListDataPetani();
-                Log.d("Retrofit Get", "Jumlah Data Petani :" + String.valueOf(PetaniList.size()));
+                //Log.d("Retrofit Get", "Jumlah Data Petani :" + String.valueOf(PetaniList.size()));
 
                 int PL = PetaniList.size();
                 for(int pi = 0; pi < PL; pi=pi+1){
@@ -83,14 +96,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         String petaniPassword = PetaniList.get(pi).getPetani_password();
                         tbPetani.tambahPetani(new Petani(petaniId, petaniName, petaniGender, petaniUname, petaniPassword));
                     }
-                    Log.d("Retrofit ", "Nama Petani " + PetaniList.get(pi).getPetani_name());
+                    //Log.d("Retrofit ", "Nama Petani " + PetaniList.get(pi).getPetani_name());
 
                 }
             }
 
             @Override
             public void onFailure(Call<GetPetani> call, Throwable t) {
-                Log.e("Retrofit Get", t.toString());
+                //Log.e("Retrofit Get", t.toString());
+                String msg =  t.getMessage();
+                Snackbar.make(liLayLogin, msg, Snackbar.LENGTH_LONG).show();
             }
         });
     }
