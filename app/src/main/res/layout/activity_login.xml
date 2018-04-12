@@ -34,31 +34,18 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:layout_width="300dp"
+                        android:layout_height="100dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_pohon_white_64dp" />
-
+                        android:src="@drawable/icongemas" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/app_name"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="30sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="5dp"
                         android:text="@string/app_name_title"
                         android:textColor="@color/colorWhite"
                         android:textSize="22sp"
                         android:textStyle="normal" />
-
 
                 </LinearLayout>
 
@@ -124,7 +111,6 @@
                 android:layout_marginTop="10dp"
                 android:id="@+id/btnLogin"
                 android:background="@drawable/button_style_white"
-                android:onClick="viewBeranda"
                 android:text="@string/text_btn_login"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp" />

@@ -21,6 +21,7 @@ import id.gaia.treemonitoring.model.GetPetani;
 import id.gaia.treemonitoring.model.Petani;
 import id.gaia.treemonitoring.rest.ApiClient;
 import id.gaia.treemonitoring.rest.ApiInterface;
+import me.anwarshahriar.calligrapher.Calligrapher;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,6 +45,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // SET FONT
+        Calligrapher calligrapher = new Calligrapher(this);
+        calligrapher.setFont(LoginActivity.this, "VarelaRound-Regular.ttf", true);
 
         // CETAK BLUPRINT DBHANDLER
         tbPetani = new TBPetani(this);
@@ -95,8 +100,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         String petaniUname = PetaniList.get(pi).getPetani_uname();
                         String petaniPassword = PetaniList.get(pi).getPetani_password();
                         tbPetani.tambahPetani(new Petani(petaniId, petaniName, petaniGender, petaniUname, petaniPassword));
+                        Log.d("Insert SQLITE ", "Nama Petani " + PetaniList.get(pi).getPetani_name());
+                    } else {
+                        Log.d("Sudah ada ", "Nama Petani " + PetaniList.get(pi).getPetani_name());
                     }
-                    //Log.d("Retrofit ", "Nama Petani " + PetaniList.get(pi).getPetani_name());
+
 
                 }
             }
@@ -108,11 +116,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Snackbar.make(liLayLogin, msg, Snackbar.LENGTH_LONG).show();
             }
         });
-    }
-
-    public void viewBeranda (View v) {
-        Intent in = new Intent(getApplicationContext(), HomeActivity.class);
-        startActivity(in);
     }
 
     @Override

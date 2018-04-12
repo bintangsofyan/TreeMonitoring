@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -22,17 +23,30 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import id.gaia.treemonitoring.database.TBDesa;
+import id.gaia.treemonitoring.database.TBGapoktan;
+import id.gaia.treemonitoring.database.TBKabkota;
+import id.gaia.treemonitoring.database.TBKecamatan;
 import id.gaia.treemonitoring.database.TBPetani;
 import id.gaia.treemonitoring.database.TBProvinsi;
 import id.gaia.treemonitoring.database.TBSinkronisasi;
 import id.gaia.treemonitoring.helper.Connection_Detector;
 import id.gaia.treemonitoring.helper.Session;
+import id.gaia.treemonitoring.model.Desa;
+import id.gaia.treemonitoring.model.Gapoktan;
+import id.gaia.treemonitoring.model.GetDesa;
+import id.gaia.treemonitoring.model.GetGapoktan;
+import id.gaia.treemonitoring.model.GetKabkota;
+import id.gaia.treemonitoring.model.GetKecamatan;
 import id.gaia.treemonitoring.model.GetProvinsi;
+import id.gaia.treemonitoring.model.Kabkota;
+import id.gaia.treemonitoring.model.Kecamatan;
 import id.gaia.treemonitoring.model.Petani;
 import id.gaia.treemonitoring.model.Provinsi;
 import id.gaia.treemonitoring.model.Sinkronisasi;
 import id.gaia.treemonitoring.rest.ApiClient;
 import id.gaia.treemonitoring.rest.ApiInterface;
+import me.anwarshahriar.calligrapher.Calligrapher;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,8 +59,17 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private Button btLogout;
     private TBPetani tbPetani;
     private TBProvinsi tbProvinsi;
+    private TBKabkota tbKabkota;
+    private TBKecamatan tbKecamatan;
+    private TBDesa tbDesa;
+    private TBGapoktan tbGapoktan;
     private TBSinkronisasi tbSinkronisasi;
     private List<Petani> petaniList = new ArrayList<>();
+    private List<Kabkota> kabkotaList = new ArrayList<>();
+    private List<Kecamatan> kecamatanList = new ArrayList<>();
+    private List<Desa> desaList = new ArrayList<>();
+    private List<Gapoktan> gapoktanList = new ArrayList<>();
+    private List<Provinsi> provinsiList = new ArrayList<>();
 
     private String petaniId;
     private String petaniName;
@@ -57,20 +80,31 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     // STRING STATUTS SETIAP TABEL
     private String statusInsertProvinsi;
+    private String statusInsertKabkota;
+    private String statusInsertKecamatan;
+    private String statusInsertDesa;
+    private String statusInsertGapoktan;
 
     private ApiInterface pApiInterface;
     Connection_Detector connection_detector;
 
-    private List<Provinsi> provinsiList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // SET FONT
+        Calligrapher calligrapher = new Calligrapher(this);
+        calligrapher.setFont(HomeActivity.this, "VarelaRound-Regular.ttf", true);
+
         // CETAK BLUPRINT DBHANDLER
         tbPetani = new TBPetani(this);
         tbProvinsi = new TBProvinsi(this);
+        tbKabkota = new TBKabkota(this);
+        tbKecamatan = new TBKecamatan(this);
+        tbDesa = new TBDesa(this);
+        tbGapoktan = new TBGapoktan(this);
         tbSinkronisasi = new TBSinkronisasi(this);
         session = new Session(this);
         ApiInterface pApiInterface;
@@ -78,7 +112,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         // MENAMPILKAN STATUS UPDATE PETANI BERDASARKAN STATUS INTERNET
         connection_detector = new Connection_Detector(this);
         if(!connection_detector.isConnected()){
-            Snackbar.make(koordinatorHomeLay, "Perangkat tidak memiliki koneksi internet. Silahkan nyalakan koneksi internet pada perangkat anda", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(koordinatorHomeLay, "Perangkat tidak memiliki koneksi internet. Silahkan nyalakan koneksi internet pada perangkat anda", Snackbar.LENGTH_SHORT).show();
         }
 
         // INITIALISASI
@@ -108,10 +142,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         if(!tbSinkronisasi.cekSinkronisasi(petaniId)){
             alertLoginPertama();
-            //Snackbar.make(koordinatorHomeLay, "Belum Ada Data Sinkronisasi, Petani Nama = " + petaniName, Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(koordinatorHomeLay, "Belum Ada Data Sinkronisasi, Petani Nama = " + petaniName, Snackbar.LENGTH_SHORT).show();
         } else {
             tgldatabase = "Database tanggal : "+tbSinkronisasi.ambilDataSinkronisasi(petaniId).getSinkrontanggal();
-            //Snackbar.make(koordinatorHomeLay, "Sudah Ada Data Sinkronisasi, Petani Nama = " + petaniName, Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(koordinatorHomeLay, "Sudah Ada Data Sinkronisasi, Petani Nama = " + petaniName, Snackbar.LENGTH_SHORT).show();
         }
 
         setPetaniStatus();
@@ -133,6 +167,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.tthome_sinkronbutton:
                 alertSinkronisasi();
+                break;
+            case R.id.goTomytree:
+
+                break;
+            case R.id.goTopantau:
+                Intent in = new Intent(getApplicationContext(), FilterActivity.class);
+                startActivity(in);
                 break;
             default:
 
@@ -191,6 +232,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     // 1. Table Provinsi
     public void prosesProvinsi(){
         if(connection_detector.isConnected()) { // JIKA ADA KONEKSI INTERNET
+            // KOSONGKAN TABLE
+            tbProvinsi.kosongkanProvinsi();
+
             // PANGGIL API INTERFACE,
             pApiInterface = ApiClient.getClient().create(ApiInterface.class);
             Call<GetProvinsi> provinsiCall = pApiInterface.getProvinsi();
@@ -206,7 +250,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             String provinsiKode = ProvinsiList.get(po).getProvinsi_kode();
                             String provinsiName = ProvinsiList.get(po).getProvinsi_name();
 
-                            tbProvinsi.tambahProvinsi(new Provinsi(provinsiId, provinsiName, provinsiKode));
+                            tbProvinsi.tambahProvinsi(new Provinsi(provinsiId, provinsiKode, provinsiName));
+                            Log.d("Insert SQLITE ", "Provinsi " + ProvinsiList.get(po).getProvinsi_kode() + " - " + ProvinsiList.get(po).getProvinsi_name());
+                        } else {
+                            Log.d("Sudah ada ", "Provinsi " + ProvinsiList.get(po).getProvinsi_kode() + " - " + ProvinsiList.get(po).getProvinsi_name());
                         }
                     }
                     statusInsertProvinsi = "Data Provinsi Berhasil disinkronisasi";
@@ -219,24 +266,186 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             });
 
         } else {
-            Snackbar.make(koordinatorHomeLay, "Koneksi internet tidak tersedia. Gagal menyelaraskan database. ", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(koordinatorHomeLay, "Koneksi internet tidak tersedia. Gagal menyelaraskan data provinsi. ", Snackbar.LENGTH_SHORT).show();
             statusInsertProvinsi = "Tabel Provinsi Gagal disinkronisasi";
         }
     }
 
     // 2. Tabel Kabkota
+    public void prosesKabkota(){
+        if(connection_detector.isConnected()) { // JIKA ADA KONEKSI INTERNET
+            // KOSONGKAN TABLE
+            tbKabkota.kosongkanKabkota();
+
+            // PANGGIL API INTERFACE,
+            pApiInterface = ApiClient.getClient().create(ApiInterface.class);
+            Call<GetKabkota> kabkotaCall = pApiInterface.getKabkota();
+            kabkotaCall.enqueue(new Callback<GetKabkota>() {
+                @Override
+                public void onResponse(Call<GetKabkota> call, Response<GetKabkota> response) {
+                    List<Kabkota> KabkotaList = response.body().getListDataKabkota();
+
+                    int PR = KabkotaList.size();
+                    for(int po = 0; po < PR; po++){
+                        if(!tbKabkota.cekKabkotaid(String.valueOf(KabkotaList.get(po).getKabkota_id()))) { // PERIKSA KABKOTAID
+                            int kabkotaId = KabkotaList.get(po).getKabkota_id();
+                            int provinsiId = KabkotaList.get(po).getProvinsi_id();
+                            String kabkotaKode = KabkotaList.get(po).getKabkota_kode();
+                            String kabkotaName = KabkotaList.get(po).getKabkota_name();
+
+                            tbKabkota.tambahKabkota(new Kabkota(kabkotaId, provinsiId, kabkotaKode, kabkotaName));
+                            Log.d("Insert SQLITE ", "Kabkota " + KabkotaList.get(po).getKabkota_kode() + " - " + KabkotaList.get(po).getKabkota_name());
+                        } else {
+                            Log.d("Sudah ada ", "Kabkota " + KabkotaList.get(po).getKabkota_kode() + " - " + KabkotaList.get(po).getKabkota_name());
+                        }
+                    }
+                    statusInsertKabkota = "Data Kabupaten/kota Berhasil disinkronisasi";
+                }
+
+                @Override
+                public void onFailure(Call<GetKabkota> call, Throwable t) {
+                    statusInsertKabkota = "Data Provinsi Gagal disinkronisasi. Koneksi server tidak ditemukan";
+                }
+            });
+
+        } else {
+            Snackbar.make(koordinatorHomeLay, "Koneksi internet tidak tersedia. Gagal menyelaraskan data kabupaten/kota.", Snackbar.LENGTH_SHORT).show();
+            statusInsertKabkota = "Tabel Kabupaten/kota Gagal disinkronisasi";
+        }
+    }
 
     // 3. Table Kecamatan
+    public void prosesKecamatan(){
+        if(connection_detector.isConnected()) { // JIKA ADA KONEKSI INTERNET
+            // KOSONGKAN TABLE
+            tbKecamatan.kosongkanKecamatan();
+
+            // PANGGIL API INTERFACE,
+            pApiInterface = ApiClient.getClient().create(ApiInterface.class);
+            Call<GetKecamatan> kecamatanCall = pApiInterface.getKecamatan();
+            kecamatanCall.enqueue(new Callback<GetKecamatan>() {
+                @Override
+                public void onResponse(Call<GetKecamatan> call, Response<GetKecamatan> response) {
+                    List<Kecamatan> KecamatanList = response.body().getListDataKecamatan();
+
+                    int PR = KecamatanList.size();
+                    for(int po = 0; po < PR; po++){
+                        if(!tbKecamatan.cekKecamatanid(String.valueOf(KecamatanList.get(po).getKecamatan_id()))) { // PERIKSA KECAMATANID
+                            int kecId = KecamatanList.get(po).getKecamatan_id();
+                            int kabkotaId = KecamatanList.get(po).getKabkota_id();
+                            String kecKode = KecamatanList.get(po).getKecamatan_kode();
+                            String kecName = KecamatanList.get(po).getKecamatan_name();
+
+                            tbKecamatan.tambahKecamatan(new Kecamatan(kecId, kabkotaId, kecKode, kecName));
+                            Log.d("Insert SQLITE ", "Kecamatan " + kecKode + " - " + kecName);
+                        } else {
+                            Log.d("Sudah ada ", "Kecamatan " + KecamatanList.get(po).getKecamatan_kode() + " - " + KecamatanList.get(po).getKecamatan_name());
+                        }
+                    }
+                    statusInsertKecamatan = "Data Kecamatan Berhasil disinkronisasi";
+                }
+
+                @Override
+                public void onFailure(Call<GetKecamatan> call, Throwable t) {
+                    statusInsertKecamatan = "Data Provinsi Gagal disinkronisasi. Koneksi server tidak ditemukan";
+                }
+            });
+
+        } else {
+            Snackbar.make(koordinatorHomeLay, "Koneksi internet tidak tersedia. Gagal menyelaraskan data kecamatan.", Snackbar.LENGTH_SHORT).show();
+            statusInsertKecamatan = "Tabel Kecamatan Gagal disinkronisasi";
+        }
+    }
 
     // 4. Tabel Desa
+    public void prosesDesa(){
+        if(connection_detector.isConnected()) { // JIKA ADA KONEKSI INTERNET
+            // KOSONGKAN TABLE
+            tbDesa.kosongkanDesa();
+
+            // PANGGIL API INTERFACE,
+            pApiInterface = ApiClient.getClient().create(ApiInterface.class);
+            Call<GetDesa> desaCall = pApiInterface.getDesa();
+            desaCall.enqueue(new Callback<GetDesa>() {
+                @Override
+                public void onResponse(Call<GetDesa> call, Response<GetDesa> response) {
+                    List<Desa> DesaList = response.body().getListDataDesa();
+
+                    int PR = DesaList.size();
+                    for(int po = 0; po < PR; po++){
+                        if(!tbDesa.cekDesaid(String.valueOf(DesaList.get(po).getDesa_id()))) { // PERIKSA DESAID
+                            int desaId = DesaList.get(po).getDesa_id();
+                            int kecId = DesaList.get(po).getKecamatan_id();
+                            String desaName = DesaList.get(po).getDesa_name();
+
+                            tbDesa.tambahDesa(new Desa(desaId, kecId, desaName));
+                            Log.d("Insert SQLITE ", "Desa " + desaName);
+                        } else {
+                            Log.d("Sudah ada ", "Desa " + DesaList.get(po).getDesa_name());
+                        }
+                    }
+                    statusInsertDesa = "Data Desa Berhasil disinkronisasi";
+                }
+
+                @Override
+                public void onFailure(Call<GetDesa> call, Throwable t) {
+                    statusInsertDesa= "Data Desa Gagal disinkronisasi. Koneksi server tidak ditemukan";
+                }
+            });
+
+        } else {
+            Snackbar.make(koordinatorHomeLay, "Koneksi internet tidak tersedia. Gagal menyelaraskan data desa.", Snackbar.LENGTH_SHORT).show();
+            statusInsertDesa = "Tabel Desa Gagal disinkronisasi";
+        }
+    }
 
     // 5. Tabel Gapoktan
+    public void prosesGapoktan(){
+        if(connection_detector.isConnected()) { // JIKA ADA KONEKSI INTERNET
+            // KOSONGKAN TABLE
+            tbGapoktan.kosongkanGapoktan();
 
-    // 6. Tabel KTH
+            // PANGGIL API INTERFACE,
+            pApiInterface = ApiClient.getClient().create(ApiInterface.class);
+            Call<GetGapoktan> gapoktanCall = pApiInterface.getGapoktan();
+            gapoktanCall.enqueue(new Callback<GetGapoktan>() {
+                @Override
+                public void onResponse(Call<GetGapoktan> call, Response<GetGapoktan> response) {
+                    List<Gapoktan> GapoktanList = response.body().getListDataGapoktan();
+                    int PR = GapoktanList.size();
+                    for (int po = 0; po < PR; po++) {
+                        if (!tbGapoktan.cekGapoktanid(String.valueOf(GapoktanList.get(po).getGapoktan_id()))) { // PERIKSA GAPOKTANID
+                            int gapoktanId = GapoktanList.get(po).getGapoktan_id();
+                            int desaId = GapoktanList.get(po).getDesa_id();
+                            String gapoktanName = GapoktanList.get(po).getGapoktan_name();
 
-    // 7. Tabel Persil
+                            tbGapoktan.tambahGapoktan(new Gapoktan(gapoktanId, desaId, gapoktanName));
+                            Log.d("Insert SQLITE ", "Gapoktan " + gapoktanName);
+                        } else {
+                            Log.d("Sudah ada ", "Gapoktan " + GapoktanList.get(po).getGapoktan_name());
+                        }
+                    }
+                    statusInsertDesa = "Data Gapoktan Berhasil disinkronisasi";
+                }
 
-    // 8. Tabel Pemilik Persil
+                @Override
+                public void onFailure(Call<GetGapoktan> call, Throwable t) {
+                    statusInsertGapoktan = "Data Gapoktan Gagal disinkronisasi. Koneksi server tidak ditemukan";
+                }
+            });
+
+        } else {
+            Snackbar.make(koordinatorHomeLay, "Koneksi internet tidak tersedia. Gagal menyelaraskan data gapoktan.", Snackbar.LENGTH_SHORT).show();
+            statusInsertGapoktan = "Tabel Gapoktan Gagal disinkronisasi";
+        }
+    }
+
+
+    // 6. Tabel Persil
+
+    // 7. Tabel Pemilik Persil
+
+    // 8. Tabel Petani Persil
 
     // 9. Tabel Buku Pohon
 
@@ -258,24 +467,28 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             insertSinkronisasi();
         } else {
-            Snackbar.make(koordinatorHomeLay, "Koneksi internet tidak tersedia. Gagal menyelaraskan database. ", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(koordinatorHomeLay, "Koneksi internet tidak tersedia. Gagal menyelaraskan database. ", Snackbar.LENGTH_SHORT).show();
         }
-        Toast.makeText(HomeActivity.this,"Kamu pilih sinkronisasi data",Toast.LENGTH_LONG).show();
+        //Toast.makeText(HomeActivity.this,"Kamu pilih sinkronisasi data",Toast.LENGTH_SHORT).show();
         checkTanggaldatabase();
     }
 
 
     // INPUT DATA SINKRONISASI DAN INSERT DATA LAIN DARI MYSQL KE SQLITE
     public void insertSinkronisasi(){
-        // INSERT DATA DATA KE MYSQL
+        // INSERT DATA DATA KE SQLITE
         prosesProvinsi();
+        prosesKabkota();
+        prosesKecamatan();
+        prosesDesa();
+        prosesGapoktan();
 
         // INSERT DATA SINKRONISASI
         String datetime = tglsaja;
-        String statussinkron = "| " + statusInsertProvinsi + " | "; // STATUS STATUS DARI SETIAP TABEL YANG DISINKRONISASI
+        String statussinkron = "| " + statusInsertProvinsi + " | " + statusInsertKabkota + " | " + statusInsertKecamatan + " | " + statusInsertDesa; // STATUS STATUS DARI SETIAP TABEL YANG DISINKRONISASI
         tbSinkronisasi.tambahSinkronisasi(new Sinkronisasi(Integer.parseInt(petaniId), datetime, statussinkron));
 
-        Toast.makeText(HomeActivity.this,"Sinkronisasi data selesai",Toast.LENGTH_LONG).show();
+        Toast.makeText(HomeActivity.this,"Sinkronisasi data selesai",Toast.LENGTH_SHORT).show();
         checkTanggaldatabase();
     }
 
@@ -322,9 +535,30 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     // LOGOUT
     private void logout(){
-        session.setLoggedin(false);
-        finish();
-        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Anda yakin ingin keluar ?");
+        alertDialogBuilder.setPositiveButton("Ya",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        session.setLoggedin(false);
+                        finish();
+                        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialogBuilder.setCancelable(true);
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+
     }
 
     public void AmbilSemuaPetani(){

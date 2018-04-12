@@ -15,7 +15,6 @@
     </style>
 
     <style name="SplashScreen" parent="android:Theme.Holo.Light.NoActionBar.Fullscreen">
-
     </style>
 
 </resources>
