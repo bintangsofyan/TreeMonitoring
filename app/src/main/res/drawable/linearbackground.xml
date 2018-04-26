@@ -6,9 +6,12 @@
         android:left="10dp"
         android:bottom="10dp"
         ></padding>
+    <corners android:topLeftRadius="4dp"
+        android:topRightRadius="4dp">
 
+    </corners>
     <gradient
-        android:startColor="@color/colorBlueGrey"
-        android:endColor="@color/colorWhiteof"
+        android:startColor="@color/colorFullDarkGrey"
+        android:endColor="@color/colorBlueGrey"
         android:angle="45"/>
 </shape>

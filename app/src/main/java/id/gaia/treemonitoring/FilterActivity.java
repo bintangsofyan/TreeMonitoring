@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -31,6 +32,8 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class FilterActivity extends AppCompatActivity implements View.OnClickListener {
     private Spinner spinnerProvinsi, spinnerKabkota, spinnerKecamatan, spinnerDesa, spinnerGapoktan;
+    private Button btTampil;
+    private int gapoktanSelectedId;
 
     private List<Provinsi> provinsiList = new ArrayList<>();
 
@@ -63,6 +66,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
         spinnerKecamatan = (Spinner) findViewById(R.id.spinkecamatan);
         spinnerDesa = (Spinner) findViewById(R.id.spindesa);
         spinnerGapoktan = (Spinner) findViewById(R.id.spingapoktan);
+        btTampil = (Button) findViewById(R.id.btnTampil);
 
         final List<Provinsi> listProvinsi = tbProvinsi.ambilSemuaProvinsi();
 
@@ -110,7 +114,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
         final List<Kecamatan> listKecamatan = tbKecamatan.ambilSemuaKecamatanWhereKabkota(kabkotaId);
         SpinnerKecamatan spinnerKcAdapter = new SpinnerKecamatan(FilterActivity.this, R.layout.spinner_filter, listKecamatan);
         spinnerKecamatan.setAdapter(spinnerKcAdapter);
-        Log.d("SPINNER ", "Adapater : " + spinnerKcAdapter + ", List : " + listKecamatan.size());
+        //Log.d("SPINNER ", "Adapater : " + spinnerKcAdapter + ", List : " + listKecamatan.size());
         if(listKecamatan.size() == 0){
             showSpinDesa("0");
         }
@@ -154,7 +158,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
     public void showSpinGapoktan(String desaId){
         final List<Gapoktan> listGapoktan = tbGapoktan.ambilSemuaGapoktanWhereDesa(desaId);
 
-        if(desaId == null) {
+        if(listGapoktan.size() == 0) {
             listGapoktan.add(new Gapoktan(0, 0, null));
         }
         SpinnerGapoktan spinnerGpAdapter = new SpinnerGapoktan(FilterActivity.this, R.layout.spinner_filter, listGapoktan);
@@ -163,7 +167,7 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
         spinnerGapoktan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                gapoktanSelectedId = listGapoktan.get(i).getGapoktan_id();
             }
 
             @Override
@@ -180,8 +184,17 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
                 Intent in = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(in);
                 break;
+            case R.id.btnTampil:
+                Intent intent = new Intent(getApplicationContext(), ListPersil.class);
+                intent.putExtra("gapoktanId", gapoktanSelectedId);
+                startActivity(intent);
+                break;
             default:
         }
+    }
+
+    public void onBackPressed() {
+
     }
 
 }

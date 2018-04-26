@@ -1,0 +1,813 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgorund"
+    tools:context="id.gaia.treemonitoring.FormPohon"
+    android:orientation="vertical">
+
+    <!--<include
+        android:id="@+id/toolbarpohonform"
+        layout="@layout/toolbarpohonform"></include>-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical"
+            >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:elevation="16dp"
+                    android:padding="8dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/colorWhite"
+
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="4dp"
+                        android:layout_alignParentLeft="true"
+                        android:orientation="vertical"
+                        >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:id="@+id/tvkodepohon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1AKS2017001"
+                                android:textSize="20sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:id="@+id/tvnamepohon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="AKASIA"
+                                android:textSize="18sp"/>
+                        </LinearLayout>
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="1dp"
+                            android:background="@color/colorAccent"
+                            />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:id="@+id/tvpersil"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="PERSIL"
+                                android:textSize="11sp"/>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:id="@+id/tvgapoktan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="AIK BUAL"
+                                android:textSize="11sp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" | "
+                                android:textSize="11sp"/>
+                            <TextView
+                                android:id="@+id/tvdesa"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="AIK BUAL"
+                                android:textSize="11sp"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:orientation="vertical"
+                        >
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="18dp"
+                            android:paddingRight="18dp"
+                            android:layout_gravity="end"
+                            >
+                            <ImageView
+                                android:id="@+id/imgstatusupdate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_status_done_24dp"
+                                />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="20dp"
+                            android:paddingRight="18dp"
+                            android:layout_gravity="bottom"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Survey Selanjutnya, "
+                                android:layout_gravity="right"
+                                android:textSize="10sp"
+                                />
+                            <TextView
+                                android:id="@+id/tvtglnextupdate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="20-10-2018"
+                                android:layout_gravity="right"
+                                android:textSize="11sp"
+                                android:textColor="@color/colorGreenPohon"
+                                />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+                <android.support.v4.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="48dp"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        >
+
+                        <android.support.v7.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="3dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp"
+                            android:id="@+id/cardgeneral"
+                            >
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingBottom="10dp"
+                                >
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:padding="8dp"
+                                    android:background="@drawable/linearbackground"
+                                    android:id="@+id/layouttitle"
+                                    >
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="General Data"
+                                        android:textSize="14dp"
+                                        android:textColor="@color/colorWhite"
+                                        android:textStyle="bold"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/laytipesurvey"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_below="@+id/layouttitle"
+                                    android:paddingLeft="8dp"
+                                    android:paddingTop="4dp"
+                                    android:paddingBottom="4dp"
+                                    android:paddingRight="4dp"
+                                    android:gravity="center_vertical"
+                                    >
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="left"
+                                        >
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:text="Aktifitas"
+                                            />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" : "
+                                            />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content">
+                                        <RadioGroup
+                                            android:id="@+id/rgTipesurvey"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+                                            <RadioButton
+                                                android:id="@+id/onTanam"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:padding="4dp"
+                                                android:text="Penanaman" />
+                                            <RadioButton
+                                                android:id="@+id/onPantau"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:padding="4dp"
+                                                android:text="Pemantauan" />
+                                        </RadioGroup>
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/laystatusphn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_below="@+id/laytipesurvey"
+                                    android:paddingLeft="8dp"
+                                    android:paddingTop="8dp"
+                                    android:paddingBottom="4dp"
+                                    android:paddingRight="4dp"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical"
+                                    >
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="left">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:text="Status Pohon"
+                                            />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        >
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" : "
+                                            />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content">
+                                        <RadioGroup
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:id="@+id/rgStatuspohon"
+                                            android:orientation="horizontal">
+                                            <RadioButton
+                                                android:id="@+id/onExist"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:padding="4dp"
+
+                                                android:text="Exist" />
+                                            <RadioButton
+                                                android:id="@+id/onBaru"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:padding="4dp"
+                                                android:text="Baru" />
+                                            <RadioButton
+                                                android:id="@+id/onSulam"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:padding="4dp"
+                                                android:text="Sulam" />
+                                        </RadioGroup>
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/layoutkeadphn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_below="@+id/laystatusphn"
+                                    android:paddingLeft="8dp"
+                                    android:paddingTop="4dp"
+                                    android:paddingBottom="4dp"
+                                    android:paddingRight="4dp"
+                                    android:gravity="center_vertical"
+                                    >
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="left"
+                                        >
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:text="Keadaan Pohon"
+                                            />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" : "
+                                            />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content">
+                                        <RadioGroup
+                                            android:id="@+id/rgKeadaanpohon"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+                                            <RadioButton
+                                                android:id="@+id/onHidup"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:padding="4dp"
+                                                android:text="Hidup" />
+                                            <RadioButton
+                                                android:id="@+id/onMati"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:padding="4dp"
+                                                android:text="Mati" />
+                                        </RadioGroup>
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/layoutdmphn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_below="@+id/layoutkeadphn"
+                                    android:paddingLeft="8dp"
+                                    android:paddingTop="4dp"
+                                    android:paddingBottom="4dp"
+                                    android:paddingRight="4dp"
+                                    android:gravity="center_vertical"
+                                    >
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="left"
+                                        >
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:text="Diameter saat ini"
+                                            />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" : "
+                                            />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content">
+                                        <EditText
+                                            android:id="@+id/etdiameter"
+                                            android:layout_width="50dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="1"
+                                            android:ems="10"
+                                            android:inputType="number"
+                                            android:text=""
+                                            android:maxLength="4"
+                                            android:textAlignment="center"
+                                            android:focusedByDefault="true"
+                                            android:hint="0000"/>
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="cm"
+                                            />
+                                    </LinearLayout>
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/layoutketphn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_below="@+id/layoutdmphn"
+                                    android:paddingLeft="8dp"
+                                    android:paddingTop="4dp"
+                                    android:paddingBottom="4dp"
+                                    android:paddingRight="4dp"
+                                    android:gravity="center_vertical"
+                                    >
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="left"
+                                        >
+                                        <TextView
+                                            android:id="@+id/tvketerangan"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:text="Keterangan"
+                                            />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" : "
+                                            />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content">
+                                        <EditText
+                                            android:id="@+id/etketerangan"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="top|left"
+                                            android:lines="3"
+                                            android:background="@drawable/button_style_white"
+                                            android:layout_weight="1"
+                                            android:overScrollMode="always"
+                                            android:scrollbars="vertical"
+                                            android:scrollHorizontally="false"
+                                            android:scrollbarStyle="insideInset"
+                                            android:inputType="textMultiLine"
+                                            android:ems="16"
+                                            android:focusableInTouchMode="true"
+                                            android:textAppearance="?android:attr/textAppearanceMedium"/>
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+
+                            </RelativeLayout>
+                        </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cardkordinat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="3dp"
+                        android:layout_margin="8dp"
+                        android:layout_below="@+id/cardgeneral"
+                        >
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="10dp"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="8dp"
+                                android:background="@drawable/linearbackground"
+                                android:id="@+id/layouttitlekor"
+                                >
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Kordinat Pohon"
+                                    android:textSize="14dp"
+                                    android:textColor="@color/colorWhite"
+                                    android:textStyle="bold"/>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/laylatlong"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@+id/layouttitlekor"
+                                android:paddingLeft="8dp"
+                                android:paddingTop="8dp"
+                                android:paddingBottom="4dp"
+                                android:paddingRight="4dp"
+                                android:orientation="horizontal"
+                                android:gravity="center_horizontal"
+                                >
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:padding="8dp"
+                                    >
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        >
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:text="Latitude"
+                                            />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" : "
+                                            />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="100dp"
+                                        android:layout_height="wrap_content">
+                                        <EditText
+                                            android:id="@+id/etlatitude"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:inputType="textPersonName"
+                                            android:text=""
+                                            android:clickable="false"
+                                            android:enabled="false"
+                                            android:background="@drawable/button_style_white"
+                                            android:textAlignment="center"
+                                            android:textColor="@color/colorGreenPohon"
+                                            android:textAppearance="?android:attr/textAppearanceSmall"
+                                            android:hint="0"/>
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:padding="8dp"
+                                    >
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        >
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:text="Longitude"
+                                            />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" : "
+                                            />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="100dp"
+                                        android:layout_height="wrap_content">
+                                        <EditText
+                                            android:id="@+id/etlongitude"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:inputType="textPersonName"
+                                            android:text=""
+                                            android:clickable="false"
+                                            android:enabled="false"
+                                            android:background="@drawable/button_style_white"
+                                            android:textAlignment="center"
+                                            android:textColor="@color/colorRedLight"
+                                            android:textAppearance="?android:attr/textAppearanceSmall"
+                                            android:hint="0"/>
+                                    </LinearLayout>
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/laybtnlatlong"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@+id/laylatlong"
+                                android:paddingLeft="8dp"
+                                android:paddingTop="4dp"
+                                android:paddingBottom="4dp"
+                                android:paddingRight="4dp"
+                                android:orientation="horizontal"
+                                android:gravity="center_horizontal"
+                                >
+                                <TextView
+                                    android:id="@+id/btnGetgps"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Refresh Kordinat"
+                                    android:padding="8dp"
+                                    android:clickable="true"
+                                    android:onClick="onClick"
+                                    android:background="@drawable/button_primary"
+                                    android:textColor="@color/colorWhite"
+                                    />
+                            </LinearLayout>
+
+                        </RelativeLayout>
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="3dp"
+                        android:layout_margin="8dp"
+                        android:layout_below="@+id/cardkordinat"
+                        >
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="10dp"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="8dp"
+                                android:background="@drawable/linearbackground"
+                                android:id="@+id/layouttitlefoto"
+                                >
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Foto Update"
+                                    android:textSize="14dp"
+                                    android:textColor="@color/colorWhite"
+                                    android:textStyle="bold"/>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/layimgview"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@+id/layouttitlefoto"
+                                android:paddingLeft="8dp"
+                                android:paddingTop="4dp"
+                                android:paddingBottom="4dp"
+                                android:paddingRight="4dp"
+                                android:orientation="horizontal"
+                                android:gravity="center_horizontal"
+                                >
+                                <ImageView
+                                    android:id="@+id/imgfotopohon"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:src="@drawable/ic_a_pohon_100dp"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:visibility="invisible"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_below="@id/layimgview"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <TextView
+                                    android:id="@+id/tvurlfoto"
+                                    android:layout_gravity="left"
+                                    android:layout_width="match_parent"
+                                    android:visibility="invisible"
+                                    android:text="url foto"
+                                    android:layout_height="match_parent" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/laybtncamera"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@+id/layimgview"
+                                android:paddingLeft="8dp"
+                                android:paddingTop="4dp"
+                                android:paddingBottom="4dp"
+                                android:paddingRight="4dp"
+                                android:orientation="horizontal"
+                                android:gravity="center_horizontal"
+                                >
+                                <TextView
+                                    android:id="@+id/btnGetfoto"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Ambil Foto"
+                                    android:padding="8dp"
+                                    android:clickable="true"
+                                    android:onClick="onClick"
+                                    android:background="@drawable/button_danger"
+                                    android:textColor="@color/colorWhite"
+                                    />
+                            </LinearLayout>
+
+                        </RelativeLayout>
+                    </android.support.v7.widget.CardView>
+
+                    </RelativeLayout>
+
+                </android.support.v4.widget.NestedScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/nopadding"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tveditpohon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:visibility="invisible"
+                android:textColor="@color/colorWhite"
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:id="@+id/btnSimpan"
+                android:background="@color/colorPrimary"
+                android:text="@string/text_btn_simpan"
+                android:onClick="onClick"
+                android:clickable="true"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

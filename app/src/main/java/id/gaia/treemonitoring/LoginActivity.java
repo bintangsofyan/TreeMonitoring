@@ -122,7 +122,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.btnLogin:
-                login();
+                if(etUname.getText() == null){
+                    Snackbar.make(liLayLogin, "Silahkan masukkan username", Snackbar.LENGTH_LONG).show();
+                } else {
+                    if(etPass.getText() == null){
+                        Snackbar.make(liLayLogin, "Silahkan masukkan password", Snackbar.LENGTH_LONG).show();
+                    } else {
+                        login();
+                    }
+                }
                 break;
             default:
 
