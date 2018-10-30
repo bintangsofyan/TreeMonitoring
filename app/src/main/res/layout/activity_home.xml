@@ -121,6 +121,7 @@
                     android:id="@+id/tthome_sinkronbutton"
                     android:textColor="@color/colorFullDarkGrey"
                     android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:onClick="onClick"
                     android:textStyle="bold" />
             </android.support.v7.widget.CardView>

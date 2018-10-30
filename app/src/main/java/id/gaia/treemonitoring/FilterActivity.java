@@ -183,18 +183,25 @@ public class FilterActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.goTohome:
                 Intent in = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(in);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                finish();
                 break;
             case R.id.btnTampil:
                 Intent intent = new Intent(getApplicationContext(), ListPersil.class);
                 intent.putExtra("gapoktanId", gapoktanSelectedId);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
                 break;
             default:
         }
     }
 
     public void onBackPressed() {
-
+        super.finish();
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
 }

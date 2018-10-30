@@ -53,9 +53,9 @@ public class CameraActivity extends AppCompatActivity {
     private Button btnCapture, btnCancel;
     private TextureView textureView;
 
-    private String persilId;
+    private String persilId, ket, lat, lon, dbh;
     private int pohonId;
-    private int gapoktanId;
+    private int gapoktanId, kll, statphn, katphn, tipsurvey;
 
     // DATABASE
     private TBPohon tbPohon;
@@ -130,6 +130,14 @@ public class CameraActivity extends AppCompatActivity {
             pohonId = bundle.getInt("pohonId");
             persilId = bundle.getString("persilId");
             gapoktanId = bundle.getInt("gapoktanId");
+            dbh = bundle.getString("dbh");
+            kll = bundle.getInt("kll");
+            statphn = bundle.getInt("statphn");
+            katphn = bundle.getInt("katphn");
+            tipsurvey = bundle.getInt("tipsurvey");
+            ket = bundle.getString("ket");
+            lat = bundle.getString("lat");
+            lon = bundle.getString("lon");
             if(tbPohon.cekPohonid(String.valueOf(pohonId))) {
                 kodePohon = tbPohon.ambilDataPohonWherePohonid(String.valueOf(pohonId)).getPohon_kode();
             } else {
@@ -140,18 +148,22 @@ public class CameraActivity extends AppCompatActivity {
             persilId = null;
             gapoktanId = 0;
             pohonId = 0;
+            kll = 0;
             kodePohon = "NOKODE";
+            dbh = null;
+            statphn = 0;
+            katphn = 0;
+            tipsurvey = 0;
+            ket = null;
+            lat = null;
+            lon = null;
         }
 
         btnCancel = (Button) findViewById(R.id.btnCancel);
             btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), FormPohon.class);
-                intent.putExtra("gapoktanId", gapoktanId);
-                intent.putExtra("persilId", persilId);
-                intent.putExtra("pohonId", pohonId);
-                startActivity(intent);
+                closeCamera();
             }
         });
     }
@@ -168,8 +180,8 @@ public class CameraActivity extends AppCompatActivity {
                         .getOutputSizes(ImageFormat.JPEG);
 
             // CAPTURE image with custom size
-            int width = 640;
-            int height = 480;
+            int width = 1920;
+            int height = 1080;
             if(jpegSizes != null && jpegSizes.length > 0){
                 width = jpegSizes[0].getWidth();
                 height = jpegSizes[0].getHeight();
@@ -245,13 +257,23 @@ public class CameraActivity extends AppCompatActivity {
                     super.onCaptureCompleted(session, request, result);
 
                     if(!tbPohonfoto.cekFoto(String.valueOf(pohonId))) { // PERIKSA ADA ATAU TIDAK, JIKA TIDAK ADA
-                        tbPohonfoto.tambahPohonfoto(new Pohonfoto(pohonId, imageFileName, String.valueOf(mediaStorageDir)));
+                        tbPohonfoto.tambahPohonfoto(new Pohonfoto(pohonId, imageFileName+".jpg", String.valueOf(mediaStorageDir)));
                     } else { // UPDATE DATA
                         int fotoid = tbPohonfoto.ambilSemuaFotoWherePohon(String.valueOf(pohonId)).get(0).getFoto_id();
-                        tbPohonfoto.updatePohonfoto(new Pohonfoto(pohonId, imageFileName, String.valueOf(mediaStorageDir)), String.valueOf(fotoid));
+                        // AMBIL DATA FILE SEBELUMNYA
+                        String deleteF = tbPohonfoto.ambilSemuaFotoWherePohon(String.valueOf(pohonId)).get(0).getFoto_dir()+"/"+tbPohonfoto.ambilSemuaFotoWherePohon(String.valueOf(pohonId)).get(0).getFoto_name();
+                        // DELETE FILENYA YANG LAMA
+                        File fileD = new File(getFilesDir(), deleteF);
+                        if(fileD.exists()){
+                            deleteFile(deleteF);
+                            fileD.delete();
+                            fileD.deleteOnExit();
+                        }
+
+                        tbPohonfoto.updatePohonfoto(new Pohonfoto(pohonId, imageFileName+".jpg", String.valueOf(mediaStorageDir)), String.valueOf(fotoid));
                     }
 
-                    Toast.makeText(CameraActivity.this, "Saved "+file, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(CameraActivity.this, "Saved "+file, Toast.LENGTH_SHORT).show();
                     //createCameraPreview();
                     closeCamera();
                 }
@@ -316,7 +338,6 @@ public class CameraActivity extends AppCompatActivity {
         try{
             cameraCaptureSessions.setRepeatingRequest(captureResuestBuilder.build(), null, mBackgroundHandler);
 
-
         } catch (CameraAccessException e){
             e.printStackTrace();
         }
@@ -349,12 +370,56 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void closeCamera(){
-        finish();
+        mBackgroundThread.quitSafely();
+        cameraCaptureSessions.close();
+        cameraDevice.close();
+        textureView.setSurfaceTextureListener(textureListener);
+
+        this.textureView.destroyDrawingCache();
+        this.cameraDevice.close();
+
+        this.finish();
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null) {
+            pohonId = bundle.getInt("pohonId");
+            persilId = bundle.getString("persilId");
+            gapoktanId = bundle.getInt("gapoktanId");
+            dbh = bundle.getString("dbh");
+            kll = bundle.getInt("kll");
+            statphn = bundle.getInt("statphn");
+            katphn = bundle.getInt("katphn");
+            tipsurvey = bundle.getInt("tipsurvey");
+            ket = bundle.getString("ket");
+            lat = bundle.getString("lat");
+            lon = bundle.getString("lon");
+
+        } else {
+            persilId = null;
+            gapoktanId = 0;
+            pohonId = 0;
+            dbh = null;
+            kll = 0;
+            statphn = 0;
+            katphn = 0;
+            tipsurvey = 0;
+            ket = null;
+            lat = null;
+            lon = null;
+        }
 
         Intent intent = new Intent(getApplicationContext(), FormPohon.class);
         intent.putExtra("gapoktanId", gapoktanId);
         intent.putExtra("persilId", persilId);
         intent.putExtra("pohonId", pohonId);
+        intent.putExtra("dbh", dbh);
+        intent.putExtra("kll", kll);
+        intent.putExtra("ket", ket);
+        intent.putExtra("lat", lat);
+        intent.putExtra("lon", lon);
+        intent.putExtra("statphn", statphn);
+        intent.putExtra("katphn", katphn);
+        intent.putExtra("tipsurvey", tipsurvey);
         startActivity(intent);
     }
 
@@ -372,7 +437,7 @@ public class CameraActivity extends AppCompatActivity {
 
         @Override
         public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-            return true;
+            return false;
         }
 
         @Override

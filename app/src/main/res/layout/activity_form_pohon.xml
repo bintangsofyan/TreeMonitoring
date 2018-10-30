@@ -132,6 +132,7 @@
                             android:layout_gravity="bottom"
                             >
                             <TextView
+                                android:id="@+id/titletglnextupdate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Survey Selanjutnya, "
@@ -239,13 +240,16 @@
                                             android:id="@+id/rgTipesurvey"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:orientation="horizontal">
+                                            android:orientation="horizontal"
+                                            android:focusableInTouchMode="true"
+                                            >
                                             <RadioButton
                                                 android:id="@+id/onTanam"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_weight="1"
                                                 android:padding="4dp"
+                                                android:onClick="onClick"
                                                 android:text="Penanaman" />
                                             <RadioButton
                                                 android:id="@+id/onPantau"
@@ -253,6 +257,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:layout_weight="1"
                                                 android:padding="4dp"
+                                                android:onClick="onClick"
                                                 android:text="Pemantauan" />
                                         </RadioGroup>
                                     </LinearLayout>
@@ -390,10 +395,72 @@
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:id="@+id/layoutdmphn"
+                                    android:id="@+id/layoutkllphn"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_below="@+id/layoutkeadphn"
+                                    android:paddingLeft="8dp"
+                                    android:paddingTop="4dp"
+                                    android:paddingBottom="4dp"
+                                    android:paddingRight="4dp"
+                                    android:gravity="center_vertical"
+                                    >
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="left"
+                                        >
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:text="Keliling Batang "
+                                            />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=" : "
+                                            />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content">
+                                        <EditText
+                                            android:id="@+id/etkeliling"
+                                            android:layout_width="70dp"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="1"
+                                            android:ems="10"
+                                            android:inputType="number"
+                                            android:text=""
+                                            android:maxLength="5"
+                                            android:textAlignment="center"
+                                            android:focusedByDefault="true"
+                                            android:hint="00000"/>
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="cm"
+                                            />
+                                    </LinearLayout>
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/layoutdmphn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_below="@+id/layoutkllphn"
                                     android:paddingLeft="8dp"
                                     android:paddingTop="4dp"
                                     android:paddingBottom="4dp"
@@ -428,16 +495,19 @@
                                         android:layout_height="wrap_content">
                                         <EditText
                                             android:id="@+id/etdiameter"
-                                            android:layout_width="50dp"
+                                            android:layout_width="75dp"
                                             android:layout_height="match_parent"
                                             android:layout_weight="1"
                                             android:ems="10"
                                             android:inputType="number"
                                             android:text=""
-                                            android:maxLength="4"
+                                            android:clickable="false"
+                                            android:enabled="false"
+                                            android:maxLength="6"
+                                            android:textColor="@color/colorBlueLight"
                                             android:textAlignment="center"
                                             android:focusedByDefault="true"
-                                            android:hint="0000"/>
+                                            android:hint="0000.00"/>
                                     </LinearLayout>
                                     <LinearLayout
                                         android:layout_width="wrap_content"
@@ -503,7 +573,6 @@
                                             android:scrollbarStyle="insideInset"
                                             android:inputType="textMultiLine"
                                             android:ems="16"
-                                            android:focusableInTouchMode="true"
                                             android:textAppearance="?android:attr/textAppearanceMedium"/>
                                     </LinearLayout>
 
@@ -558,7 +627,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
-                                    android:padding="8dp"
+                                    android:padding="6dp"
                                     >
 
                                     <LinearLayout
@@ -569,7 +638,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center_vertical"
-                                            android:text="Latitude"
+                                            android:text="Lat (x)"
                                             />
                                     </LinearLayout>
                                     <LinearLayout
@@ -594,9 +663,11 @@
                                             android:inputType="textPersonName"
                                             android:text=""
                                             android:clickable="false"
+                                            android:scrollHorizontally="true"
                                             android:enabled="false"
                                             android:background="@drawable/button_style_white"
-                                            android:textAlignment="center"
+                                            android:textAlignment="textStart"
+                                            android:textSize="10sp"
                                             android:textColor="@color/colorGreenPohon"
                                             android:textAppearance="?android:attr/textAppearanceSmall"
                                             android:hint="0"/>
@@ -608,7 +679,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
-                                    android:padding="8dp"
+                                    android:padding="6dp"
                                     >
 
                                     <LinearLayout
@@ -619,7 +690,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center_vertical"
-                                            android:text="Longitude"
+                                            android:text="Long (y)"
                                             />
                                     </LinearLayout>
                                     <LinearLayout
@@ -645,8 +716,9 @@
                                             android:text=""
                                             android:clickable="false"
                                             android:enabled="false"
+                                            android:textSize="10sp"
                                             android:background="@drawable/button_style_white"
-                                            android:textAlignment="center"
+                                            android:textAlignment="textStart"
                                             android:textColor="@color/colorRedLight"
                                             android:textAppearance="?android:attr/textAppearanceSmall"
                                             android:hint="0"/>

@@ -39,8 +39,10 @@ import id.gaia.treemonitoring.database.TBPersilpemilik;
 import id.gaia.treemonitoring.database.TBPetani;
 import id.gaia.treemonitoring.database.TBPetanipersil;
 import id.gaia.treemonitoring.database.TBPohon;
+import id.gaia.treemonitoring.database.TBPohonfoto;
 import id.gaia.treemonitoring.database.TBProvinsi;
 import id.gaia.treemonitoring.database.TBSinkronisasi;
+import id.gaia.treemonitoring.database.TBSurvey;
 import id.gaia.treemonitoring.helper.Connection_Detector;
 import id.gaia.treemonitoring.helper.Session;
 import id.gaia.treemonitoring.model.Desa;
@@ -92,6 +94,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private TBPersilpemilik tbPersilpemilik;
     private TBPetanipersil tbPetanipersil;
     private TBPohon tbPohon;
+    private TBSurvey tbSurvey;
+    private TBPohonfoto tbPohonfoto;
     private TBSinkronisasi tbSinkronisasi;
     private List<Petani> petaniList = new ArrayList<>();
     private List<Kabkota> kabkotaList = new ArrayList<>();
@@ -150,6 +154,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         tbPetanipersil = new TBPetanipersil(this);
         tbPohon = new TBPohon(this);
         tbSinkronisasi = new TBSinkronisasi(this);
+        tbPohonfoto = new TBPohonfoto(this);
+        tbSurvey = new TBSurvey(this);
         session = new Session(this);
         ApiInterface pApiInterface;
 
@@ -221,11 +227,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 alertSinkronisasi();
                 break;
             case R.id.goTomytree:
-
+                this.finish();
+                Intent intent = new Intent(getApplicationContext(), MytreeActivity.class);
+                startActivity(intent);
                 break;
             case R.id.goTopantau:
+                this.finish();
                 Intent in = new Intent(getApplicationContext(), FilterActivity.class);
                 startActivity(in);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 break;
             default:
 
@@ -293,6 +303,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             // PROSES UPLOAD GAMBAR DAN DATA KE SERVER MYSQL,
 
             // MENGOSONGKAN DATA SURVEY
+            kosongkanSurvey();
 
             insertSinkronisasi();
         } else {
@@ -300,6 +311,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
         //Toast.makeText(HomeActivity.this,"Kamu pilih sinkronisasi data",Toast.LENGTH_SHORT).show();
         checkTanggaldatabase();
+    }
+
+    private void kosongkanSurvey() {
+        tbSurvey.kosongkanSurvey();
+        tbPohonfoto.kosongkanFoto();
     }
 
     public void kosongkanDB(){
@@ -738,7 +754,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                                 @Override
                                 public void onFailure(Call<GetPersil> call, Throwable t) {
-
+                                    progressPersil.dismiss();
                                 }
                             });
                             // END PROSES DATA PESIL
@@ -799,6 +815,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             pohonCall.enqueue(new Callback<GetPohon>() {
                                 @Override
                                 public void onResponse(Call<GetPohon> call, Response<GetPohon> response) {
+                                    progressDoalog.dismiss();
+
                                     final List<Pohon> PohonList = response.body().getListDataPohon();
 
                                     final int ph = PohonList.size();
@@ -859,6 +877,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                                     final String tglLastUpdate = tgllastupdate;
                                                     final String tglNextUpdate = tglnextupdate;
 
+                                                    progressPohon.setMax(ph);
+                                                    progressPohon.setProgress(dataPohonKe);
+                                                    progressPohon.setMessage("Data Semua Pohon "+ PersilpetaniList.get(finalPo).getPersil_id() +"....");
+                                                    progressPohon.show();
+
                                                     pApiInterface = ApiClient.getClient().create(ApiInterface.class);
                                                     Call<GetLastsurveycalculate> lastcalculateCall = pApiInterface.getSelisihhari(tglnextupdate, tglsaja);
                                                     lastcalculateCall.enqueue(new Callback<GetLastsurveycalculate>() {
@@ -868,13 +891,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                                             final int selisihNya = selisihHari.get(0).getSelisih_hari();
 
 
-                                                            progressPohon.setMax(ph);
-                                                            progressPohon.setProgress(dataPohonKe);
-                                                            progressPohon.setMessage("Data Semua Pohon "+ PersilpetaniList.get(finalPo).getPersil_id() +"....");
-
+                                                            progressDoalog.dismiss();
                                                             progressPohonview.dismiss();
-                                                            progressPohon.show();
-
+                                                            progressPohon.dismiss();
 
 
                                                             if (selisihNya >= -30) { // JIKA SELISIH HARI SUDAH SEBULAN SEBELUM TANGGAL SURVEY ATAU LEBIH DARI HARI HARUS SURVEY MAKA
@@ -931,16 +950,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                                 }
                                             });
 
-                                            //Log.e("PROGRESS POON ", "Pohon " + progressPohon.getProgress() + " = " + progressPohon.getMax());
-                                            //progressPohon.dismiss(); // NOT THIS
-
+                                            progressPohonview.dismiss();
                                         }
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(Call<GetPohon> call, Throwable t) {
-
+                                    progressPohonview.dismiss();
                                 }
                             });
                             // END PROSES DATA POHON
@@ -958,6 +975,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 public void onFailure(Call<GetPetanipersil> call, Throwable t) {
                     // close it after response
                     progressDoalog.dismiss();
+                    progressPohonview.dismiss();
                     //statusInsertProvinsi = "Data Provinsi Gagal disinkronisasi. Koneksi server tidak ditemukan";
                 }
             });
@@ -1055,7 +1073,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
 
-
     }
 
     public void AmbilSemuaPetani(){
@@ -1064,5 +1081,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         for(int sqp = 0; sqp < petaniList.size(); sqp++){
             Log.d("SQLite ", "Nama Petani = " + petaniList.get(sqp).getPetani_name());
         }
+    }
+
+    public void onBackPressed() {
+        this.finish();
+        Intent exit = new Intent(Intent.ACTION_MAIN);
+        exit.addCategory(Intent.CATEGORY_HOME);
+        exit.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(exit);
     }
 }

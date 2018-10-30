@@ -15,24 +15,60 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="16dp"
+        android:background="@drawable/button_style_white"
         >
         <LinearLayout
+            android:id="@+id/laytitlelistpohon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:paddingLeft="6dp"
+            android:paddingTop="4dp"
+            android:paddingRight="6dp"
             android:orientation="vertical"
-
+            android:layout_alignParentTop="true"
             android:background="@color/colorWhite">
             <TextView
                 android:id="@+id/tvpersilpilih"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="4dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
+                android:focusedByDefault="true"
                 android:text="PERSIL : -"/>
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_below="@+id/laytitlelistpohon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="6dp"
+            android:paddingTop="4dp"
+            android:paddingRight="6dp"
+            android:paddingBottom="2dp"
+            android:orientation="vertical"
+            android:background="@color/colorWhite">
+
+            <EditText
+                android:id="@+id/etsearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/button_style_white"
+                android:ems="16"
+                android:gravity="center_vertical"
+                android:inputType="text"
+                android:overScrollMode="always"
+                android:paddingLeft="6dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="2dp"
+                android:paddingRight="6dp"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="horizontal"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="15sp" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -40,9 +76,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
-        android:paddingBottom="10dp"
+        android:paddingBottom="1dp"
         android:paddingRight="10dp"
-        android:paddingTop="8dp">
+        android:paddingTop="0dp">
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -52,8 +88,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="4dp"
                 android:orientation="vertical">
                 <android.support.v7.widget.RecyclerView
+                    android:paddingTop="4dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/rvlistpohon"

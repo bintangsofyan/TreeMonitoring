@@ -8,6 +8,7 @@
     <color name="colorAmber">#FFB300</color>
     <color name="colorBlueLight">#0091EA</color>
     <color name="colorYellow">#FFEB3B</color>
+    <color name="colorYellowLight">#FFFDE7</color>
     <color name="colorYellowCream">#F2E7C4</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorWhiteof">#f3f3f3</color>
@@ -15,6 +16,7 @@
     <color name="colorBackgorund">#f5f7fa</color>
     <color name="colorGreenPohon">#00E676</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorGreyLight">#EEEEEE</color>
     <color name="colorDarkGrey">#616567</color>
     <color name="colorBlueGrey">#607D8B</color>
     <color name="colorFullDarkGrey">#212121</color>

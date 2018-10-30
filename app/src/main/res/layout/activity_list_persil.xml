@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackgorund"
     tools:context="id.gaia.treemonitoring.FilterActivity"
+    android:id="@+id/liLayListPersil"
     android:orientation="vertical">
 
     <include
@@ -16,20 +17,52 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="16dp"
+        android:background="@drawable/button_style_white"
         >
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/layoutfilterpersil"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingRight="6dp"
+            android:paddingLeft="6dp"
             android:orientation="vertical"
+            android:layout_alignParentLeft="true"
             android:background="@color/colorWhite">
                 <TextView
                     android:id="@+id/tvfilter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorPrimaryDark"
                     android:text="Filter : -"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_below="@+id/layoutfilterpersil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingRight="6dp"
+            android:paddingLeft="6dp"
+            android:orientation="horizontal"
+            android:id="@+id/layoutbtnupload"
+            android:background="@color/colorWhite">
+            <TextView
+                android:layout_gravity="left"
+                android:id="@+id/btnUpload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="@drawable/button_danger"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:textColor="@color/colorWhite"
+                android:text="Upload / Kirim Data"/>
 
         </LinearLayout>
     </RelativeLayout>
@@ -37,10 +70,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp"
+        android:paddingTop="1dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:paddingBottom="4dp">
+        android:paddingBottom="2dp">
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -50,6 +83,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="6dp"
                 android:orientation="vertical">
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"

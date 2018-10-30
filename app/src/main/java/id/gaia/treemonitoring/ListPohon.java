@@ -6,9 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +30,7 @@ import me.anwarshahriar.calligrapher.Calligrapher;
 
 public class ListPohon extends AppCompatActivity implements View.OnClickListener {
     private TextView tvPersilSelect, tvListpohon;
+    private EditText etsearch;
     private RecyclerView rvPohon;
     private String persilId;
     private int gapoktanId;
@@ -57,11 +62,11 @@ public class ListPohon extends AppCompatActivity implements View.OnClickListener
         // INIT
         tvPersilSelect = (TextView) findViewById(R.id.tvpersilpilih);
         tvListpohon = (TextView) findViewById(R.id.tvlistpohon);
+        etsearch = (EditText) findViewById(R.id.etsearch);
         rvPohon = (RecyclerView) findViewById(R.id.rvlistpohon);
         //rvPohon.setHasFixedSize(false);
         layoutManager = new LinearLayoutManager(this);
         rvPohon.setLayoutManager(layoutManager);
-
 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {
@@ -93,10 +98,10 @@ public class ListPohon extends AppCompatActivity implements View.OnClickListener
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                /*pohonList.remove(pohonList.size()-1);
+                                pohonList.remove(pohonList.size()-1);
                                 pohonLoadAdapter.notifyItemRemoved(pohonList.size());
                                 // Handler more data
-                                int index = pohonList.size();
+                                /*int index = pohonList.size();
                                 int end = index+10;
                                 for(int i=index;i<end;i++){
 
@@ -106,6 +111,8 @@ public class ListPohon extends AppCompatActivity implements View.OnClickListener
                                 pohonLoadAdapter.setLoaded();
                             }
                         }, 2000);
+                    } else {
+                        Toast.makeText(ListPohon.this, "Data telah ditampilkan semua", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -115,6 +122,23 @@ public class ListPohon extends AppCompatActivity implements View.OnClickListener
             rvPohon.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             */
+
+            etsearch.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    filter(editable.toString());
+                }
+            });
 
             if (pohonList.size() != 0){
                 rvPohon.setVisibility(View.VISIBLE);
@@ -137,6 +161,7 @@ public class ListPohon extends AppCompatActivity implements View.OnClickListener
                             }
                         })
                 );
+
             } else {
                 rvPohon.setVisibility(View.INVISIBLE);
                 tvListpohon.setText("Pohon belum tersedia untuk saat ini");
@@ -149,19 +174,58 @@ public class ListPohon extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    private void filter(String text){
+        final ArrayList<Pohon> filterpohonList = new ArrayList<>();
+        for(Pohon pohon : pohonList){
+            if(pohon.getPohon_kode().toLowerCase().contains(text.toLowerCase())){
+                filterpohonList.add(pohon);
+            }
+        }
+
+        pohonLoadAdapter.filterList(filterpohonList);
+        rvPohon.setAdapter(pohonLoadAdapter);
+
+        rvPohon.addOnItemTouchListener(
+                new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        // TODO Handle item click
+                        Pohon pohon = filterpohonList.get(position);
+                        int pohonId = pohon.getPohon_id();
+
+                        Intent intent = new Intent(getApplicationContext(), FormPohon.class);
+                        intent.putExtra("pohonId", pohonId);
+                        intent.putExtra("gapoktanId", gapoktanId);
+                        intent.putExtra("persilId", persilId);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+                        //Toast.makeText(ListPersil.this, "Klik di " + persilId, Toast.LENGTH_SHORT).show();
+                    }
+                })
+        );
+
+
+    }
+
     @Override
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.goTopersil:
+                this.finish();
                 Intent in = new Intent(getApplicationContext(), ListPersil.class);
                 in.putExtra("gapoktanId", gapoktanId);
                 startActivity(in);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 break;
             default:
         }
     }
 
     public void onBackPressed() {
-
+        this.finish();
+        Intent in = new Intent(getApplicationContext(), ListPersil.class);
+        in.putExtra("gapoktanId", gapoktanId);
+        startActivity(in);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }
